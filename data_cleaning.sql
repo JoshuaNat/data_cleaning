@@ -88,3 +88,21 @@ WHERE industry LIKE 'Crypto%';
 UPDATE world_layoffs.layoffs_staging2
 SET industry = 'Crypto'
 WHERE industry LIKE 'Crypto%';
+
+-- No problems on location
+SELECT DISTINCT location
+FROM world_layoffs.layoffs_staging2
+ORDER BY location;
+
+-- duplicate country due to a period
+SELECT DISTINCT country
+FROM world_layoffs.layoffs_staging2
+ORDER BY country;
+
+SELECT *
+FROM world_layoffs.layoffs_staging2
+WHERE country LIKE '%.';
+
+UPDATE world_layoffs.layoffs_staging2
+SET country = TRIM(TRAILING '.' FROM country)
+WHERE country LIKE '%.';
