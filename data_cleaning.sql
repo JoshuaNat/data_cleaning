@@ -66,3 +66,11 @@ WHERE row_num > 1;
 SELECT *
 FROM world_layoffs.layoffs_staging2
 WHERE row_num > 1;
+
+-- Standardize data, find and fix issues with the data
+
+SELECT company, TRIM(company)
+FROM world_layoffs.layoffs_staging2;
+
+UPDATE world_layoffs.layoffs_staging2
+SET company = TRIM(company);
