@@ -74,3 +74,17 @@ FROM world_layoffs.layoffs_staging2;
 
 UPDATE world_layoffs.layoffs_staging2
 SET company = TRIM(company);
+
+SELECT DISTINCT industry
+FROM world_layoffs.layoffs_staging2
+ORDER BY industry;
+
+-- Upon checking all the distinct industries, crypto, cryptocurrency and crypto currency are the same
+-- Updating all of them into 'Crypto'
+SELECT *
+FROM world_layoffs.layoffs_staging2
+WHERE industry LIKE 'Crypto%';
+
+UPDATE world_layoffs.layoffs_staging2
+SET industry = 'Crypto'
+WHERE industry LIKE 'Crypto%';
