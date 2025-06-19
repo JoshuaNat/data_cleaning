@@ -106,3 +106,18 @@ WHERE country LIKE '%.';
 UPDATE world_layoffs.layoffs_staging2
 SET country = TRIM(TRAILING '.' FROM country)
 WHERE country LIKE '%.';
+
+-- Changing date from text into date
+-- We can't alter the table without the proper format first
+
+SELECT `date`
+FROM world_layoffs.layoffs_staging2;
+
+UPDATE world_layoffs.layoffs_staging2
+SET `date` = STR_TO_DATE(`date`, '%m/%d/%Y');
+
+-- Altering the table
+
+ALTER TABLE world_layoffs.layoffs_staging2
+MODIFY COLUMN `date` DATE;
+
