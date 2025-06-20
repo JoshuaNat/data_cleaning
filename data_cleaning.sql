@@ -121,3 +121,23 @@ SET `date` = STR_TO_DATE(`date`, '%m/%d/%Y');
 ALTER TABLE world_layoffs.layoffs_staging2
 MODIFY COLUMN `date` DATE;
 
+-- Checking Null and blanks values
+
+SELECT *
+FROM world_layoffs.layoffs_staging2
+WHERE total_laid_off IS NULL
+AND percentage_laid_off IS NULL;
+
+SELECT * 
+FROM world_layoffs.layoffs_staging2
+WHERE industry IS NULL
+OR industry = '';
+
+-- Check if the industry is filled in another row with the same company
+
+SELECT * 
+FROM world_layoffs.layoffs_staging2
+WHERE company = 'Airbnb'
+OR company = "Bally's Interactive"
+OR company = 'Carvana'
+OR company = 'Juul';
