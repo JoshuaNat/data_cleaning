@@ -142,7 +142,7 @@ OR company = "Bally's Interactive"
 OR company = 'Carvana'
 OR company = 'Juul';
 
--- Change blanks into Null
+-- Change blanks into Null to make update easier
 
 UPDATE world_layoffs.layoffs_staging2
 SET industry = NULL
@@ -156,9 +156,33 @@ JOIN world_layoffs.layoffs_staging2 AS t2
 WHERE t1.industry IS NULL
 AND t2.industry IS NOT NULL;
 
+-- Populate the null values
+
 UPDATE world_layoffs.layoffs_staging2 AS t1
 JOIN world_layoffs.layoffs_staging2 AS t2
 	ON t1.company = t2.company
 SET t1.industry = t2.industry
 WHERE t1.industry IS NULL
 AND t2.industry IS NOT NULL;
+
+-- Total_laid__off, percentage_laid_off, fund_raised_millions
+-- We cann't populate blank/null values with the data we have available
+
+
+-- Removing columns and rows
+-- Without total/percentage laid off, these rows aren't useful to us
+
+DELETE 
+FROM world_layoffs.layoffs_staging2
+WHERE total_laid_off IS NULL
+AND percentage_laid_off IS NULL; 
+
+-- Row num isn't longer useful
+
+ALTER TABLE world_layoffs.layoffs_staging2
+DROP COLUMN row_num;
+
+SELECT *
+FROM world_layoffs.layoffs_staging2;
+
+
