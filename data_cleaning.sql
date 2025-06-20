@@ -141,3 +141,24 @@ WHERE company = 'Airbnb'
 OR company = "Bally's Interactive"
 OR company = 'Carvana'
 OR company = 'Juul';
+
+-- Change blanks into Null
+
+UPDATE world_layoffs.layoffs_staging2
+SET industry = NULL
+WHERE industry = '';
+
+SELECT * 
+FROM world_layoffs.layoffs_staging2 AS t1
+JOIN world_layoffs.layoffs_staging2 AS t2
+	ON t1.company = t2.company
+    AND t1.location = t2.location
+WHERE t1.industry IS NULL
+AND t2.industry IS NOT NULL;
+
+UPDATE world_layoffs.layoffs_staging2 AS t1
+JOIN world_layoffs.layoffs_staging2 AS t2
+	ON t1.company = t2.company
+SET t1.industry = t2.industry
+WHERE t1.industry IS NULL
+AND t2.industry IS NOT NULL;
